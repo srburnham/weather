@@ -5,6 +5,7 @@ defmodule Weather.Denton do
 		|> HTTPoison.get()
 		|> handle_response
 		|> get_elements
+		|> Enum.each(&print_one_by_one(&1))
 	end
 
 	def weather_url() do
@@ -26,4 +27,10 @@ defmodule Weather.Denton do
 	def test(xml) do
 		Enum.map(xml, fn (x, xelem) -> xpath(xml, ~x"//current_observation", x: ~x"./#{x}/text()") end)
 	end
+
+	def print_one_by_one({name, value}) do
+		nameString = Atom.to_string(name) |> String.capitalize
+		IO.puts("#{nameString}: #{value}")
+	end
+
 end
